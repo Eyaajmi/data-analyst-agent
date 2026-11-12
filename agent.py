@@ -82,5 +82,8 @@ def run_agent(question: str, csv_path: str) -> str:
 
 
 if __name__ == "__main__":
-    answer = run_agent("Quelle région a le plus de ventes ?", "data/ventes.csv")
+    answer = run_agent(
+        "Quelle est l'évolution mensuelle du montant total ? Donne le mois avec la plus forte hausse par rapport au mois précédent.",
+        "data/ventes.csv",
+    )
     print("\n=== RÉPONSE ===\n" + answer)
