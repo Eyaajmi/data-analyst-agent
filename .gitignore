@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Datasets Kaggle (non redistribués)
+data/Sample - Superstore.csv
+data/superstore.csv
