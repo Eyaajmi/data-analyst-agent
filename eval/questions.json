@@ -1,0 +1,10 @@
+[
+  {"question": "Quelle région a le plus de ventes ?", "expected": ["est"]},
+  {"question": "Quel est le montant total des ventes ?", "expected": ["940"]},
+  {"question": "Combien de lignes contient le fichier ?", "expected": ["6"]},
+  {"question": "Quel produit a le plus de ventes en montant total ?", "expected": ["b"]},
+  {"question": "Quelle est la vente la plus élevée ?", "expected": ["300"]},
+  {"question": "Quel est le montant moyen d'une vente ?", "expected": ["156"]},
+  {"question": "Quel mois a le plus de ventes en montant total ?", "expected": ["mars"]},
+  {"question": "Combien de ventes ont été réalisées dans la région Nord ?", "expected": ["2", "deux"]}
+]
