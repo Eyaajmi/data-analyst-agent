@@ -33,7 +33,7 @@ def main(model: str):
     for i, (question, expected, kind) in enumerate(CASES, 1):
         print(f"\n##### Question {i}/{len(CASES)} : {question}")
         start = time.time()
-        answer, steps = run_agent(question, CSV, model=model)
+        answer, steps = run_agent(question, CSV, model=model, verbose=False)
         duration = time.time() - start
         ok = is_correct(answer, expected, kind)
         results.append({

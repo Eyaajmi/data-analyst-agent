@@ -46,6 +46,7 @@ def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = 
             "content": f"Fichier CSV : {csv_path}\n\n{schema}\n\nQuestion : {question}",
         },
     ]
+    last_ok = False  # True si la dernière exécution a réussi
 
     for step in range(MAX_STEPS):
         response = ollama.chat(
@@ -58,15 +59,23 @@ def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = 
 
         match = CODE_RE.search(content)
 
-        # Pas de code : réponse finale (ou réponse vide à relancer)
         if not match:
-            if content.strip():
-                return content, step + 1
-            messages.append({"role": "user", "content": "Ta réponse était vide. Écris le code Python."})
+            if content.strip() and last_ok:
+                return content, step + 1  # réponse finale, appuyée par un calcul réussi
+            # Pas de calcul valide : on refuse la réponse et on exige du code
+            messages.append({
+                "role": "user",
+                "content": (
+                    "Tu n'as pas de résultat d'exécution valide. "
+                    "Écris un bloc ```python complet qui calcule la réponse "
+                    "et l'affiche avec print()."
+                ),
+            })
             continue
 
         code = match.group(1)
         result = run_python(code)
+        last_ok = not result.startswith("ERREUR")
         if verbose:
             print(f"\n[étape {step + 1}] code :\n{code}\n-> résultat : {result[:300]}")
         messages.append({
@@ -80,7 +89,6 @@ def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = 
         })
 
     return "Limite d'étapes atteinte sans réponse finale.", MAX_STEPS
-
 
 if __name__ == "__main__":
     answer, steps = run_agent("Quelle région a le plus de ventes ?", "data/ventes.csv")
