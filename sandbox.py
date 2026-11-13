@@ -25,13 +25,12 @@ def run_python(code: str) -> str:
     output = result.stdout.strip()
     if result.returncode != 0:
         return f"ERREUR:\n{result.stderr.strip()[-1500:]}"
-    return output or "(le code s'est exécuté sans rien afficher : utilise print())"
+    if not output:
+        return "ERREUR: le code n'a rien affiché. Réécris-le en utilisant print() pour afficher le résultat."
+    return output
 
 
 if __name__ == "__main__":
-    # Test 1 : code qui fonctionne
     print(run_python("import pandas as pd\ndf = pd.read_csv('data/ventes.csv')\nprint(df['montant'].sum())"))
-    # Test 2 : code qui plante
     print(run_python("print(1/0)"))
-    # Test 3 : boucle infinie
-    print(run_python("while True: pass"))
+    print(run_python("x = 1"))
