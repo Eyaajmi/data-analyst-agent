@@ -18,9 +18,14 @@ def extract_numbers(text: str):
 
 def is_correct(answer: str, expected, kind: str) -> bool:
     if kind == "num":
-        target = float(expected)
-        tol = max(0.5, abs(target) * 1e-4)
-        return any(abs(n - target) <= tol for n in extract_numbers(answer))
+        target = abs(float(expected))
+        tol = max(0.5, target * 1e-4)
+        return any(abs(abs(n) - target) <= tol for n in extract_numbers(answer))
+    if kind == "dec":
+        target = abs(float(expected))
+        return any(abs(abs(n) - target) <= 0.06 for n in extract_numbers(answer))
+    if kind == "list":
+        return all(str(x).lower() in answer.lower() for x in expected)
     return str(expected).lower() in answer.lower()
 
 def main(model: str):
