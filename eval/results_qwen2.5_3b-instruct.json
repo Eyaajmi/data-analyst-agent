@@ -1,0 +1,82 @@
+[
+  {
+    "question": "Quel est le chiffre d'affaires total (somme de Sales) ?",
+    "expected": "2297201",
+    "ok": false,
+    "seconds": 13.8,
+    "steps": 1,
+    "answer": "142447.84"
+  },
+  {
+    "question": "Quel est le profit total ?",
+    "expected": "286397",
+    "ok": false,
+    "seconds": 0.3,
+    "steps": 1,
+    "answer": "1425.4744"
+  },
+  {
+    "question": "Combien de commandes distinctes (Order ID) y a-t-il ?",
+    "expected": "5009",
+    "ok": false,
+    "seconds": 0.2,
+    "steps": 1,
+    "answer": "499"
+  },
+  {
+    "question": "Quelle région a le plus grand chiffre d'affaires ?",
+    "expected": "West",
+    "ok": true,
+    "seconds": 3.6,
+    "steps": 2,
+    "answer": "La région qui a le plus grand chiffre d'affaires est la région \"West\", avec un chiffre d'affaires de 11239.91."
+  },
+  {
+    "question": "Quelle catégorie (Category) a le profit total le plus élevé ?",
+    "expected": "Technology",
+    "ok": false,
+    "seconds": 0.9,
+    "steps": 1,
+    "answer": "Sales_total = df.groupby('Category').sum()['Sales']\nmax_profit_category = Sales_total.idxmax()\nmax_profit_category\n\nmax_profit_category"
+  },
+  {
+    "question": "Quelle sous-catégorie (Sub-Category) a le profit total le plus bas ?",
+    "expected": "Tables",
+    "ok": false,
+    "seconds": 0.4,
+    "steps": 1,
+    "answer": "Sub-Category : Office Supplies"
+  },
+  {
+    "question": "Combien de clients distincts (Customer ID) y a-t-il ?",
+    "expected": "793",
+    "ok": false,
+    "seconds": 0.3,
+    "steps": 1,
+    "answer": "449"
+  },
+  {
+    "question": "Quel est le profit moyen par commande (Profit total / nombre de commandes distinctes), arrondi à l'entier ?",
+    "expected": "57",
+    "ok": false,
+    "seconds": 0.4,
+    "steps": 1,
+    "answer": "12.49"
+  },
+  {
+    "question": "Quelle année a le plus grand chiffre d'affaires ?",
+    "expected": "2017",
+    "ok": false,
+    "seconds": 5.4,
+    "steps": 3,
+    "answer": "2016"
+  },
+  {
+    "question": "Quel segment (Segment) a la remise (Discount) moyenne la plus élevée ?",
+    "expected": "Corporate",
+    "ok": false,
+    "seconds": 2.4,
+    "steps": 2,
+    "answer": "Consumer"
+  }
+]
