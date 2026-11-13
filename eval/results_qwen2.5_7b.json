@@ -1,0 +1,82 @@
+[
+  {
+    "question": "Quel est le chiffre d'affaires total (somme de Sales) ?",
+    "expected": "2297201",
+    "ok": true,
+    "seconds": 9.9,
+    "steps": 2,
+    "answer": "Le chiffre d'affaires total est 2297200.8603."
+  },
+  {
+    "question": "Quel est le profit total ?",
+    "expected": "286397",
+    "ok": true,
+    "seconds": 15.0,
+    "steps": 3,
+    "answer": "Le profit total est de 286397.0217."
+  },
+  {
+    "question": "Combien de commandes distinctes (Order ID) y a-t-il ?",
+    "expected": "5009",
+    "ok": true,
+    "seconds": 13.7,
+    "steps": 3,
+    "answer": "Il y a 5009 commandes distinctes (Order ID)."
+  },
+  {
+    "question": "Quelle région a le plus grand chiffre d'affaires ?",
+    "expected": "West",
+    "ok": true,
+    "seconds": 7.7,
+    "steps": 2,
+    "answer": "La région avec le plus grand chiffre d'affaires est West."
+  },
+  {
+    "question": "Quelle catégorie (Category) a le profit total le plus élevé ?",
+    "expected": "Technology",
+    "ok": true,
+    "seconds": 8.7,
+    "steps": 2,
+    "answer": "La catégorie avec le profit total le plus élevé est **'Technology'**."
+  },
+  {
+    "question": "Quelle sous-catégorie (Sub-Category) a le profit total le plus bas ?",
+    "expected": "Tables",
+    "ok": false,
+    "seconds": 8.2,
+    "steps": 2,
+    "answer": "La sous-catégorie avec le profit total le plus bas est \"Bookcases\"."
+  },
+  {
+    "question": "Combien de clients distincts (Customer ID) y a-t-il ?",
+    "expected": "793",
+    "ok": true,
+    "seconds": 14.3,
+    "steps": 3,
+    "answer": "Il y a 793 clients distincts."
+  },
+  {
+    "question": "Quel est le profit moyen par commande (Profit total / nombre de commandes distinctes), arrondi à l'entier ?",
+    "expected": "57",
+    "ok": true,
+    "seconds": 25.1,
+    "steps": 3,
+    "answer": "Le profit moyen par commande, arrondi à l'entier, est 57."
+  },
+  {
+    "question": "Quelle année a le plus grand chiffre d'affaires ?",
+    "expected": "2017",
+    "ok": true,
+    "seconds": 12.5,
+    "steps": 2,
+    "answer": "L'année qui a le plus grand chiffre d'affaires est 2017."
+  },
+  {
+    "question": "Quel segment (Segment) a la remise (Discount) moyenne la plus élevée ?",
+    "expected": "Corporate",
+    "ok": true,
+    "seconds": 10.3,
+    "steps": 2,
+    "answer": "Le segment avec la remise moyenne la plus élevée est **Corporate**."
+  }
+]
