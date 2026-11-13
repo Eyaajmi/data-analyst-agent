@@ -16,8 +16,8 @@ SYSTEM = (
     "2. Utilise EXACTEMENT les noms de colonnes fournis (par exemple 'Order Date', 'Sub-Category').\n"
     "3. Ne devine jamais un chiffre : calcule-le.\n"
     "4. Dès que tu reçois un résultat d'exécution qui n'est pas une ERREUR, tu ne réécris PLUS de code : "
-    "donne la réponse finale en français, avec le chiffre exact, SANS bloc de code.\n"
-    "5. Si le résultat est une ERREUR, corrige ton code dans un nouveau bloc."
+    "donne la réponse finale en français, SANS bloc de code. "
+    "Recopie fidèlement la valeur affichée par le code, sans la corriger ni la remplacer par ce que tu crois savoir.\n"
 )
 
 CODE_RE = re.compile(r"```(?:python)?\s*\n(.*?)```", re.DOTALL)
