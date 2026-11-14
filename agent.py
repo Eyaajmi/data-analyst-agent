@@ -36,7 +36,7 @@ def inspect_data(path: str) -> str:
         return f"ERREUR: {e}"
 
 
-def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = True):
+def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = True, on_step=None):
     """Renvoie (réponse, nombre_d_étapes)."""
     schema = inspect_data(csv_path)
     messages = [
@@ -46,7 +46,7 @@ def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = 
             "content": f"Fichier CSV : {csv_path}\n\n{schema}\n\nQuestion : {question}",
         },
     ]
-    last_ok = False  # True si la dernière exécution a réussi
+    last_ok = False  
 
     for step in range(MAX_STEPS):
         response = ollama.chat(
@@ -61,8 +61,7 @@ def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = 
 
         if not match:
             if content.strip() and last_ok:
-                return content, step + 1  # réponse finale, appuyée par un calcul réussi
-            # Pas de calcul valide : on refuse la réponse et on exige du code
+                return content, step + 1  
             messages.append({
                 "role": "user",
                 "content": (
@@ -76,6 +75,8 @@ def run_agent(question: str, csv_path: str, model: str = MODEL, verbose: bool = 
         code = match.group(1)
         result = run_python(code)
         last_ok = not result.startswith("ERREUR")
+        if on_step:
+            on_step(step + 1, code, result)
         if verbose:
             print(f"\n[étape {step + 1}] code :\n{code}\n-> résultat : {result[:300]}")
         messages.append({
