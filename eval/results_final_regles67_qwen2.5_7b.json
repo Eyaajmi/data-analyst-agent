@@ -1,0 +1,82 @@
+[
+  {
+    "question": "Combien de commandes distinctes (Order ID) ont été passées en 2015 ?",
+    "expected": "1038",
+    "ok": true,
+    "seconds": 7.3,
+    "steps": 2,
+    "answer": "Il y a 1038 commandes distinctes (Order ID) qui ont été passées en 2015."
+  },
+  {
+    "question": "En 2016, quel est le numéro du mois (1 à 12) avec le plus grand profit total ?",
+    "expected": "12",
+    "ok": true,
+    "seconds": 21.0,
+    "steps": 6,
+    "answer": "12"
+  },
+  {
+    "question": "Quelle est la plus grande valeur de Sales sur une seule ligne, arrondie à l'entier ?",
+    "expected": "22638",
+    "ok": true,
+    "seconds": 6.2,
+    "steps": 2,
+    "answer": "La plus grande valeur de Sales sur une seule ligne, arrondie à l'entier, est 22638."
+  },
+  {
+    "question": "Quels sont les 3 États (State) avec le plus grand nombre de commandes distinctes (Order ID) ?",
+    "expected": "['California', 'New York', 'Texas']",
+    "ok": true,
+    "seconds": 8.3,
+    "steps": 2,
+    "answer": "Les 3 États avec le plus grand nombre de commandes distinctes sont :\n\n1. California avec 1021 commandes\n2. New York avec 562 commandes\n3. Texas avec 487 commandes"
+  },
+  {
+    "question": "Quel pourcentage des lignes a un profit négatif ? Arrondis à 1 décimale.",
+    "expected": "18.7",
+    "ok": true,
+    "seconds": 6.3,
+    "steps": 2,
+    "answer": "18.7"
+  },
+  {
+    "question": "Quelle sous-catégorie (Sub-Category) a la remise (Discount) moyenne la plus élevée ?",
+    "expected": "Binders",
+    "ok": true,
+    "seconds": 4.7,
+    "steps": 2,
+    "answer": "Binders"
+  },
+  {
+    "question": "Quel est le profit total de la région Central, arrondi à l'entier ?",
+    "expected": "39706",
+    "ok": true,
+    "seconds": 5.5,
+    "steps": 2,
+    "answer": "Le profit total de la région Central est 39706."
+  },
+  {
+    "question": "Quel est le chiffre d'affaires moyen par commande distincte (Sales total / nombre de commandes), arrondi à 1 décimale ?",
+    "expected": "458.6",
+    "ok": true,
+    "seconds": 5.7,
+    "steps": 2,
+    "answer": "Le chiffre d'affaires moyen par commande distincte est de 458.6."
+  },
+  {
+    "question": "Combien de clients distincts (Customer ID) ont passé au moins 10 commandes distinctes ?",
+    "expected": "88",
+    "ok": true,
+    "seconds": 7.8,
+    "steps": 2,
+    "answer": "Il y a 88 clients distincts qui ont passé au moins 10 commandes distinctes."
+  },
+  {
+    "question": "Combien de lignes ont une Ship Date identique à leur Order Date ?",
+    "expected": "519",
+    "ok": true,
+    "seconds": 6.2,
+    "steps": 2,
+    "answer": "Le nombre de lignes ayant une Ship Date identique à leur Order Date est 519."
+  }
+]

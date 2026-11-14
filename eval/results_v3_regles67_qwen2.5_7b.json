@@ -1,0 +1,82 @@
+[
+  {
+    "question": "Quel est le profit moyen par commande distincte dans la région West, arrondi à 1 décimale ?",
+    "expected": "67.3",
+    "ok": false,
+    "seconds": 9.1,
+    "steps": 2,
+    "answer": "Le profit moyen par commande distincte dans la région West est de -1.5."
+  },
+  {
+    "question": "Combien de commandes distinctes (Order ID) contiennent au moins une ligne de la catégorie Technology ?",
+    "expected": "1544",
+    "ok": true,
+    "seconds": 6.3,
+    "steps": 2,
+    "answer": "Il y a 1544 commandes distinctes (Order ID) contenant au moins une ligne de la catégorie Technology."
+  },
+  {
+    "question": "Quel est le nombre moyen de commandes distinctes par client (Customer ID), arrondi à 1 décimale ?",
+    "expected": "6.3",
+    "ok": true,
+    "seconds": 6.2,
+    "steps": 2,
+    "answer": "Le nombre moyen de commandes distinctes par client (Customer ID), arrondi à 1 décimale, est 6.3."
+  },
+  {
+    "question": "Quel client (Customer Name) a passé le plus de commandes distinctes ?",
+    "expected": "Emily Phan",
+    "ok": true,
+    "seconds": 8.6,
+    "steps": 3,
+    "answer": "Emily Phan"
+  },
+  {
+    "question": "Quel est le chiffre d'affaires moyen par commande distincte en 2016, arrondi à 1 décimale ?",
+    "expected": "463.3",
+    "ok": true,
+    "seconds": 6.8,
+    "steps": 2,
+    "answer": "Le chiffre d'affaires moyen par commande distincte en 2016 est 463.3."
+  },
+  {
+    "question": "Combien de commandes distinctes ont un profit total négatif (somme de Profit sur toutes leurs lignes) ?",
+    "expected": "1022",
+    "ok": true,
+    "seconds": 14.0,
+    "steps": 6,
+    "answer": "1022"
+  },
+  {
+    "question": "Quelle région compte le plus de commandes distinctes (Order ID) ?",
+    "expected": "West",
+    "ok": true,
+    "seconds": 6.7,
+    "steps": 2,
+    "answer": "La région qui compte le plus de commandes distinctes est West."
+  },
+  {
+    "question": "Quelle est la quantité totale (Quantity) vendue ?",
+    "expected": "37873",
+    "ok": true,
+    "seconds": 4.6,
+    "steps": 2,
+    "answer": "37873"
+  },
+  {
+    "question": "Quelle ville (City) a le plus grand profit total ?",
+    "expected": "New York City",
+    "ok": true,
+    "seconds": 5.0,
+    "steps": 2,
+    "answer": "La ville qui a le plus grand profit total est New York City."
+  },
+  {
+    "question": "Combien de lignes ont une Quantity supérieure ou égale à 10 ?",
+    "expected": "170",
+    "ok": true,
+    "seconds": 6.0,
+    "steps": 2,
+    "answer": "Il y a 170 lignes avec une Quantity supérieure ou égale à 10."
+  }
+]

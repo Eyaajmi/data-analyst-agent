@@ -1,0 +1,250 @@
+[
+  {
+    "question": "Quel est le chiffre d'affaires total (somme de Sales) ?",
+    "expected": "2297201",
+    "ok": true,
+    "seconds": 7.8,
+    "steps": 2,
+    "answer": "Le chiffre d'affaires total est 2297200.8603."
+  },
+  {
+    "question": "Quel est le profit total ?",
+    "expected": "286397",
+    "ok": true,
+    "seconds": 6.1,
+    "steps": 2,
+    "answer": "Le profit total est de 286397.0217."
+  },
+  {
+    "question": "Combien de commandes distinctes (Order ID) y a-t-il ?",
+    "expected": "5009",
+    "ok": true,
+    "seconds": 5.2,
+    "steps": 2,
+    "answer": "Il y a 5009 commandes distinctes (Order ID)."
+  },
+  {
+    "question": "Quelle région a le plus grand chiffre d'affaires ?",
+    "expected": "West",
+    "ok": true,
+    "seconds": 4.7,
+    "steps": 2,
+    "answer": "Région: West"
+  },
+  {
+    "question": "Quelle catégorie (Category) a le profit total le plus élevé ?",
+    "expected": "Technology",
+    "ok": false,
+    "seconds": 4.6,
+    "steps": 2,
+    "answer": "Fournitures"
+  },
+  {
+    "question": "Quelle sous-catégorie (Sub-Category) a le profit total le plus bas ?",
+    "expected": "Tables",
+    "ok": true,
+    "seconds": 4.5,
+    "steps": 2,
+    "answer": "Tables"
+  },
+  {
+    "question": "Combien de clients distincts (Customer ID) y a-t-il ?",
+    "expected": "793",
+    "ok": true,
+    "seconds": 4.8,
+    "steps": 2,
+    "answer": "Il y a 793 clients distincts (Customer ID)."
+  },
+  {
+    "question": "Quel est le profit moyen par commande (Profit total / nombre de commandes distinctes), arrondi à l'entier ?",
+    "expected": "57",
+    "ok": false,
+    "seconds": 6.1,
+    "steps": 2,
+    "answer": "Le profit moyen par commande, arrondi à l'entier, est de -12."
+  },
+  {
+    "question": "Quelle année a le plus grand chiffre d'affaires ?",
+    "expected": "2017",
+    "ok": true,
+    "seconds": 11.9,
+    "steps": 3,
+    "answer": "2017"
+  },
+  {
+    "question": "Quel segment (Segment) a la remise (Discount) moyenne la plus élevée ?",
+    "expected": "Corporate",
+    "ok": true,
+    "seconds": 4.3,
+    "steps": 2,
+    "answer": "Corporate"
+  },
+  {
+    "question": "Combien de lignes du fichier ont une Order Date en 2016 ?",
+    "expected": "2587",
+    "ok": true,
+    "seconds": 5.1,
+    "steps": 2,
+    "answer": "2587"
+  },
+  {
+    "question": "Quel est le numéro du mois (1 à 12), toutes années confondues, qui a le plus grand chiffre d'affaires ?",
+    "expected": "11",
+    "ok": true,
+    "seconds": 11.6,
+    "steps": 4,
+    "answer": "11"
+  },
+  {
+    "question": "Quel est le chiffre d'affaires total (Sales) des commandes de 2017, arrondi à l'entier ?",
+    "expected": "733215",
+    "ok": true,
+    "seconds": 8.2,
+    "steps": 2,
+    "answer": "Le chiffre d'affaires total (Sales) des commandes de 2017 est 733215."
+  },
+  {
+    "question": "En 2017, quel trimestre (1 à 4) a le profit total le plus élevé ?",
+    "expected": "4",
+    "ok": true,
+    "seconds": 21.6,
+    "steps": 6,
+    "answer": "4"
+  },
+  {
+    "question": "De quel pourcentage le chiffre d'affaires de 2017 a-t-il augmenté par rapport à 2016 ? Arrondis à 1 décimale.",
+    "expected": "20.4",
+    "ok": true,
+    "seconds": 35.7,
+    "steps": 3,
+    "answer": "Le chiffre d'affaires de 2017 a augmenté de 20.4% par rapport à 2016."
+  },
+  {
+    "question": "Quels sont les 3 clients (Customer Name) avec le plus grand chiffre d'affaires total ?",
+    "expected": "['Sean Miller', 'Tamara Chand', 'Raymond Buch']",
+    "ok": true,
+    "seconds": 10.1,
+    "steps": 2,
+    "answer": "Les 3 clients avec le plus grand chiffre d'affaires total sont :\n\n- Sean Miller avec un chiffre d'affaires de 25043.050\n- Tamara Chand avec un chiffre d'affaires de 19052.218\n- Raymond Buch avec un chiffre d'affaires de 15117.339"
+  },
+  {
+    "question": "Quel État (State) a le profit total le plus élevé ?",
+    "expected": "California",
+    "ok": true,
+    "seconds": 5.6,
+    "steps": 2,
+    "answer": "Le État (State) qui a le profit total le plus élevé est California."
+  },
+  {
+    "question": "Quelles sont les 3 sous-catégories (Sub-Category) avec le plus grand profit total ?",
+    "expected": "['Copiers', 'Phones', 'Accessories']",
+    "ok": true,
+    "seconds": 9.9,
+    "steps": 2,
+    "answer": "Les 3 sous-catégories avec le plus grand profit total sont :\n- Copiers avec un profit de 55617.8249\n- Phones avec un profit de 44515.7306\n- Accessories avec un profit de 41936.6357"
+  },
+  {
+    "question": "Dans la région West, quelle catégorie (Category) a le plus grand chiffre d'affaires ?",
+    "expected": "Furniture",
+    "ok": false,
+    "seconds": 5.6,
+    "steps": 2,
+    "answer": "Fournitures"
+  },
+  {
+    "question": "Quelle est la marge globale (Profit total / Sales total, en pourcentage), arrondie à 1 décimale ?",
+    "expected": "12.5",
+    "ok": true,
+    "seconds": 12.8,
+    "steps": 3,
+    "answer": "12.5"
+  },
+  {
+    "question": "Quelle catégorie (Category) a la meilleure marge (Profit total / Sales total) ?",
+    "expected": "Technology",
+    "ok": true,
+    "seconds": 19.2,
+    "steps": 3,
+    "answer": "La catégorie avec la meilleure marge est Technology."
+  },
+  {
+    "question": "Quelle est la remise (Discount) moyenne sur toutes les lignes, en pourcentage, arrondie à 1 décimale ?",
+    "expected": "15.6",
+    "ok": true,
+    "seconds": 6.3,
+    "steps": 2,
+    "answer": "La remise (Discount) moyenne sur toutes les lignes, en pourcentage, arrondie à 1 décimale est 15.6."
+  },
+  {
+    "question": "Combien de lignes ont une remise (Discount) strictement supérieure à 0.2 dans la région West ?",
+    "expected": "118",
+    "ok": false,
+    "seconds": 4.4,
+    "steps": 2,
+    "answer": "4"
+  },
+  {
+    "question": "Quel est le profit total des lignes dont la remise (Discount) est strictement supérieure à 0.3 ? Arrondis à l'entier.",
+    "expected": "-125007",
+    "ok": true,
+    "seconds": 6.8,
+    "steps": 2,
+    "answer": "Le profit total des lignes dont la remise est strictement supérieure à 0.3 est -125007."
+  },
+  {
+    "question": "Combien de lignes ont un profit négatif ?",
+    "expected": "1871",
+    "ok": true,
+    "seconds": 4.9,
+    "steps": 2,
+    "answer": "1871"
+  },
+  {
+    "question": "Quelle est la valeur moyenne de Sales pour la catégorie Furniture, arrondie à 1 décimale ?",
+    "expected": "349.8",
+    "ok": true,
+    "seconds": 6.9,
+    "steps": 2,
+    "answer": "La valeur moyenne de Sales pour la catégorie Furniture, arrondie à 1 décimale, est 349.8."
+  },
+  {
+    "question": "Combien de clients distincts (Customer ID) y a-t-il dans le segment Consumer ?",
+    "expected": "409",
+    "ok": true,
+    "seconds": 6.1,
+    "steps": 2,
+    "answer": "Il y a 409 clients distincts (Customer ID) dans le segment Consumer."
+  },
+  {
+    "question": "Quel mode de livraison (Ship Mode) est le plus utilisé, en nombre de lignes ?",
+    "expected": "Standard Class",
+    "ok": true,
+    "seconds": 8.2,
+    "steps": 3,
+    "answer": "Standard Class"
+  },
+  {
+    "question": "Quel est le nombre moyen de jours entre Order Date et Ship Date, arrondi à 1 décimale ?",
+    "expected": "4.0",
+    "ok": true,
+    "seconds": 9.7,
+    "steps": 2,
+    "answer": "Le nombre moyen de jours entre Order Date et Ship Date, arrondi à 1 décimale, est 4.0."
+  },
+  {
+    "question": "Quelle ville (City) compte le plus de clients distincts (Customer ID) ?",
+    "expected": "New York City",
+    "ok": true,
+    "seconds": 4.9,
+    "steps": 2,
+    "answer": "New York City"
+  },
+  {
+    "question": "Quel est le profit total de la catégorie Technology dans la région East, arrondi à l'entier ?",
+    "expected": "47462",
+    "ok": true,
+    "seconds": 7.3,
+    "steps": 2,
+    "answer": "Le profit total de la catégorie Technology dans la région East est de 47462."
+  }
+]
