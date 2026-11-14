@@ -72,7 +72,9 @@ Résultats :
 - Le contrôle de cohérence corrige les 3 premiers cas, au prix d'un peu plus d'étapes (2,5 en moyenne contre 2,2 à 2,3).
 - Q23 et N1 échouent toujours : leur code est faux, et le contrôle ne vérifie que la cohérence entre le code et la réponse, pas la justesse du calcul.
 
-**Limite importante** : les règles et le contrôle ont été écrits en observant les échecs de ces trois jeux. Le score de 49/51 est donc optimiste et ne prouve pas une amélioration générale. Un jeu de questions indépendant serait nécessaire pour la confirmer.Les résultats détaillés de chaque configuration sont dans eval/ (suffixes avant, regles67 et controle).
+**Limite importante** : les règles et le contrôle ont été écrits en observant les échecs de ces trois jeux. Le score de 49/51 est donc optimiste et ne prouve pas une amélioration générale. Un jeu de questions indépendant serait nécessaire pour la confirmer.
+
+Les résultats détaillés de chaque configuration sont dans eval/ (suffixes avant, regles67 et controle).
 
 ### Autres échecs observés
 
