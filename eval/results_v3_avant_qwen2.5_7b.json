@@ -1,0 +1,82 @@
+[
+  {
+    "question": "Quel est le profit moyen par commande distincte dans la région West, arrondi à 1 décimale ?",
+    "expected": "67.3",
+    "ok": false,
+    "seconds": 18.6,
+    "steps": 2,
+    "answer": "Le profit moyen par commande distincte dans la région West, arrondi à 1 décimale, est 33.8."
+  },
+  {
+    "question": "Combien de commandes distinctes (Order ID) contiennent au moins une ligne de la catégorie Technology ?",
+    "expected": "1544",
+    "ok": true,
+    "seconds": 5.7,
+    "steps": 2,
+    "answer": "Il y a 1544 commandes distinctes (Order ID) contenant au moins une ligne de la catégorie Technology."
+  },
+  {
+    "question": "Quel est le nombre moyen de commandes distinctes par client (Customer ID), arrondi à 1 décimale ?",
+    "expected": "6.3",
+    "ok": true,
+    "seconds": 6.0,
+    "steps": 2,
+    "answer": "Le nombre moyen de commandes distinctes par client (Customer ID), arrondi à 1 décimale, est 6.3."
+  },
+  {
+    "question": "Quel client (Customer Name) a passé le plus de commandes distinctes ?",
+    "expected": "Emily Phan",
+    "ok": false,
+    "seconds": 4.0,
+    "steps": 2,
+    "answer": "William Brown"
+  },
+  {
+    "question": "Quel est le chiffre d'affaires moyen par commande distincte en 2016, arrondi à 1 décimale ?",
+    "expected": "463.3",
+    "ok": true,
+    "seconds": 19.5,
+    "steps": 4,
+    "answer": "Le chiffre d'affaires moyen par commande distincte en 2016 est de 463.3."
+  },
+  {
+    "question": "Combien de commandes distinctes ont un profit total négatif (somme de Profit sur toutes leurs lignes) ?",
+    "expected": "1022",
+    "ok": true,
+    "seconds": 6.8,
+    "steps": 2,
+    "answer": "La réponse finale est : 1022 commandes distinctes ont un profit total négatif."
+  },
+  {
+    "question": "Quelle région compte le plus de commandes distinctes (Order ID) ?",
+    "expected": "West",
+    "ok": false,
+    "seconds": 5.3,
+    "steps": 2,
+    "answer": "La région qui compte le plus de commandes distinctes (Order ID) comporte 5009 commandes."
+  },
+  {
+    "question": "Quelle est la quantité totale (Quantity) vendue ?",
+    "expected": "37873",
+    "ok": true,
+    "seconds": 4.8,
+    "steps": 2,
+    "answer": "La quantité totale vendue est de 37873."
+  },
+  {
+    "question": "Quelle ville (City) a le plus grand profit total ?",
+    "expected": "New York City",
+    "ok": true,
+    "seconds": 4.7,
+    "steps": 2,
+    "answer": "La ville qui a le plus grand profit total est New York City."
+  },
+  {
+    "question": "Combien de lignes ont une Quantity supérieure ou égale à 10 ?",
+    "expected": "170",
+    "ok": true,
+    "seconds": 5.8,
+    "steps": 2,
+    "answer": "Il y a 170 lignes où la quantité est supérieure ou égale à 10."
+  }
+]
