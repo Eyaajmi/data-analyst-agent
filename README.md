@@ -2,6 +2,14 @@
 
 Agent IA qui répond à des questions sur un fichier CSV : il écrit du code pandas, l'exécute dans un sous-processus avec timeout, lit le résultat et se corrige en cas d'erreur. Fonctionne 100 % en local avec Ollama, sans clé d'API.
 
+## Interface
+
+![Jeu de données et question](docs/interface-clair1.png)
+
+![Étapes de l'agent et réponse](docs/interface-clair2.png)
+
+L'interface Streamlit permet d'importer un CSV ou d'utiliser un jeu d'exemple, de choisir le modèle, puis d'afficher à chaque étape le code généré et son résultat. Les thèmes clair et sombre sont disponibles dans le menu Settings de Streamlit.
+
 ## Fonctionnement
 
 1. L'agent reçoit la question et le schéma du CSV (colonnes, types, aperçu).
@@ -65,7 +73,7 @@ Avec l'ancien protocole, sans garde-fou et sur les 10 premières questions, le 3
 
 - Questions de test inédites (doublons, dates par mois et année, top N par groupe, égalités)
 - Comparaison avec un troisième modèle (qwen2.5-coder:7b ou llama3.1:8b)
-- Interface Streamlit, Docker, démo en ligne
+- Exécution du code dans Docker, démo en ligne
 
 ## Lancer le projet
 
@@ -74,7 +82,6 @@ conda create -n agent-data python=3.12
 conda activate agent-data
 pip install -r requirements.txt
 ollama pull qwen2.5:7b
-python evaluate.py qwen2.5:7b
 ```
 
 Les données Superstore ne sont pas incluses : télécharger `Sample - Superstore.csv` sur Kaggle, le placer dans `data/`, puis le convertir en UTF-8 :
@@ -83,4 +90,18 @@ Les données Superstore ne sont pas incluses : télécharger `Sample - Superstor
 python -c "import pandas as pd; pd.read_csv('data/Sample - Superstore.csv', encoding='latin-1').to_csv('data/superstore.csv', index=False)"
 ```
 
-Pour évaluer un autre modèle : `python evaluate.py qwen2.5:3b-instruct`. Les résultats sont enregistrés dans `eval/results_<modèle>.json`.
+### Application
+
+Ollama doit être lancé, puis :
+
+```bash
+streamlit run app.py
+```
+
+### Évaluation
+
+```bash
+python evaluate.py qwen2.5:7b
+```
+
+Pour un autre modèle : `python evaluate.py qwen2.5:3b-instruct`. Les résultats sont enregistrés dans `eval/results_<modèle>.json`.
