@@ -31,18 +31,29 @@ Question : « Quel mois a la plus forte hausse par rapport au précédent ? » L
 
 ## Évaluation
 
-31 questions sur le dataset Superstore (9 994 lignes) : 10 de développement (Q1-10) et 21 de test (Q11-31), figées dans un commit avant le premier run. Les questions couvrent agrégations, dates (format américain), top N, ratios et filtres combinés.
+Dataset Superstore (9 994 lignes). Les réponses attendues sont calculées avec pandas. Matériel : RTX 3050 portable (6 Go de VRAM), 32 Go de RAM. Les temps incluent le chargement du modèle à la première question.
 
-Matériel : RTX 3050 portable (6 Go de VRAM), 32 Go de RAM. Les temps incluent le chargement du modèle à la première question.
+Deux jeux de questions :
 
-### Comparaison des modèles (version 2)
+- **Jeu de développement (31 questions)** : 10 questions (Q1-10) puis 21 (Q11-31), utilisées pour construire et corriger l'agent. Agrégations, dates au format américain, top N, ratios, filtres combinés.
+- **Test final (10 questions inédites)** : écrites après la fin du développement et lancées une seule fois, sans modifier l'agent entre-temps. Pièges ciblés : commandes distinctes contre lignes, dates par mois, seuils par client.
 
-| Modèle | Réussite | Temps moyen | Étapes moy. |
-|---|---|---|---|
-| qwen2.5:7b | 31/31 (100 %), 30/31 après audit de Q14 | 6,9 s | 2,3 |
-| qwen2.5:3b-instruct | 19/31 (61 %) | 4,1 s | 3,4 |
+### Résultats
 
-### Progression du qwen2.5:7b
+| Modèle | Dev (31 questions) | Test final (10 questions) | Temps moyen | Étapes moy. |
+|---|---|---|---|---|
+| qwen2.5:7b | 31/31 (100 %), 30/31 après audit de Q14 | **9/10 (90 %)** | 6,9 s / 6,7 s | 2,3 / 2,2 |
+| qwen2.5:3b-instruct | 19/31 (61 %) | non évalué | 4,1 s | 3,4 |
+
+Le score du jeu de développement est optimiste : ces questions ont servi à trouver et corriger les défauts de l'agent. Le test final est la mesure la plus fiable, mais 10 questions restent un échantillon petit : 9/10 est un ordre de grandeur, pas une précision.
+
+### Échec du test final (F9)
+
+Question : « Combien de clients distincts ont passé au moins 10 commandes distinctes ? » Réponse attendue : 88, réponse du modèle : 523.
+
+Le modèle compte les **lignes** par client (`len(x) >= 10`) au lieu des commandes distinctes (`Order ID`). Le code s'exécute sans erreur, donc le garde-fou ne détecte rien, et la réponse reprend le mot « distinctes » de la question comme si le calcul y répondait. Un rejeu donne le même résultat. C'est une erreur de compréhension de la question, que ni le sandbox ni la boucle ne peuvent repérer.
+
+### Progression du qwen2.5:7b sur le jeu de développement
 
 | Version | Dev (Q1-10) | Test (Q11-31) | Cause principale des échecs |
 |---|---|---|---|
@@ -62,17 +73,17 @@ Avec l'ancien protocole, sans garde-fou et sur les 10 premières questions, le 3
 
 ## Limites connues
 
-- **Jeu de test non vierge** : il a servi à trouver le bug de la v1, donc le score v2 n'est pas un test final. Des questions nouvelles, jamais vues, sont prévues.
+- **Le garde-fou vérifie l'exécution, pas le sens.** Un code qui tourne mais répond à une autre question que celle posée n'est pas détecté (cas F9).
 - **Q14 est un faux positif** : elle est notée correcte, mais le code compte les lignes par trimestre au lieu de sommer le profit (bonne réponse par coïncidence).
 - **Vérificateur imparfait** : il ignore le signe des nombres et peut valider un petit nombre présent par hasard dans la réponse.
 - **Dates fragiles** : le modèle écrit souvent `pd.to_datetime` sans préciser le format, ou utilise `str.contains('2016')`. Cela fonctionne ici mais n'est pas robuste.
 - **Sandbox** : il protège contre les plantages et les boucles infinies, mais ce n'est pas une isolation de sécurité (le code peut lire des fichiers). Docker serait nécessaire en production.
-- **Un seul dataset** et un seul run par modèle : les résultats sont indicatifs.
+- **Un seul dataset, un seul run par modèle**, test final de 10 questions : les résultats sont indicatifs. Les questions du test final ont été écrites avant le run, mais elles n'ont pas été enregistrées dans un commit avant son lancement.
 
 ## Prochaines étapes
 
-- Questions de test inédites (doublons, dates par mois et année, top N par groupe, égalités)
-- Comparaison avec un troisième modèle (qwen2.5-coder:7b ou llama3.1:8b)
+- Comparaison avec un troisième modèle (qwen2.5-coder:7b ou llama3.1:8b) sur les deux jeux
+- Vérification de cohérence entre la question et le code (par exemple « commandes distinctes » doit entraîner un `nunique` sur `Order ID`)
 - Exécution du code dans Docker, démo en ligne
 
 ## Lancer le projet
@@ -101,7 +112,8 @@ streamlit run app.py
 ### Évaluation
 
 ```bash
-python evaluate.py qwen2.5:7b
+python evaluate.py qwen2.5:7b          # jeu de développement (31 questions)
+python evaluate.py qwen2.5:7b final    # test final (10 questions)
 ```
 
-Pour un autre modèle : `python evaluate.py qwen2.5:3b-instruct`. Les résultats sont enregistrés dans `eval/results_<modèle>.json`.
+Les résultats sont enregistrés dans `eval/`.
