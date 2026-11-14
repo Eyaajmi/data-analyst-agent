@@ -17,12 +17,14 @@ L'interface Streamlit permet d'importer un CSV ou d'utiliser un jeu d'exemple, d
 3. Le code est exécuté dans un sandbox (sous-processus, timeout de 20 s).
 4. Le résultat (ou l'erreur) est renvoyé au modèle, qui corrige son code ou donne la réponse finale.
 5. Une réponse finale n'est acceptée que si la dernière exécution a réussi.
-6. Une limite de 6 étapes évite les boucles infinies.
+6. Un contrôle vérifie que la réponse contient la valeur affichée par le code. Sinon, le modèle doit la recopier (2 relances maximum).
+7. Une limite de 6 étapes évite les boucles infinies.
 
 ### Choix de conception
 
 - **Protocole à base de blocs de code.** Le tool calling natif d'Ollama s'est montré instable avec un modèle 7B quantifié : après un résultat d'outil, le modèle renvoyait des réponses vides. Le modèle écrit donc son code dans un bloc ```` ```python ````, que mon code extrait et exécute. La boucle (raisonner, agir, observer, corriger) est la même, et fonctionne avec n'importe quel modèle.
 - **Garde-fou d'exécution.** L'agent refuse toute réponse finale sans exécution réussie. Le sandbox renvoie une ERREUR si le code n'affiche rien, ce qui déclenche l'auto-correction.
+- **Contrôle de cohérence code / réponse.** Le modèle écrit parfois un code juste puis une réponse qui le contredit (code affichant « Technology », réponse « Fournitures »). Une consigne dans le prompt ne suffisant pas, la boucle compare la réponse à la sortie du code et redemande la recopie en cas d'écart.
 - **Évaluation sur la réponse finale.** Le vérificateur compare la réponse écrite par le modèle à une vérité terrain calculée avec pandas, pas seulement la sortie du code.
 
 ### Exemple d'auto-correction
@@ -33,44 +35,50 @@ Question : « Quel mois a la plus forte hausse par rapport au précédent ? » L
 
 Dataset Superstore (9 994 lignes, 5 009 commandes distinctes). Les réponses attendues sont calculées avec pandas. Matériel : RTX 3050 portable (6 Go de VRAM), 32 Go de RAM. Les temps incluent le chargement du modèle à la première question.
 
-Deux jeux de questions :
+Trois jeux de questions :
 
-- **Jeu de développement (31 questions)** : utilisées pour construire et corriger l'agent. Agrégations, dates au format américain, top N, ratios, filtres combinés.
-- **Test final (10 questions inédites)** : écrites après la fin du développement et lancées une seule fois par modèle, sans modifier l'agent entre-temps. Pièges ciblés : commandes distinctes contre lignes, dates par mois, seuils par client.
+- **Développement (31 questions)** : utilisées pour construire l'agent. Agrégations, dates au format américain, top N, ratios, filtres combinés.
+- **Test final (10 questions)** : écrites après le développement et lancées une fois par modèle, sans modifier l'agent entre-temps. Les questions ont été écrites avant le run, mais pas enregistrées dans un commit avant son lancement.
+- **v3 (10 questions)** : 7 questions avec le piège « lignes contre commandes distinctes » et 3 contrôles. Enregistrées dans un commit avant la mesure.
 
-### Résultats
+### Comparaison des modèles
 
-| Modèle | Dev (31 questions) | Test final (10 questions) | Temps moyen (dev / final) | Étapes moy. (dev / final) |
+Mesurée avec la version de base de l'agent (avant les règles de prompt et le contrôle de cohérence).
+
+| Modèle | Dev (31) | Test final (10) | Temps moyen (dev / final) | Étapes moy. (dev / final) |
 |---|---|---|---|---|
-| qwen2.5:7b | 31/31 (100 %), 30/31 après audit de Q14 | 9/10 (90 %) | 6,9 s / 6,7 s | 2,3 / 2,2 |
-| qwen2.5-coder:7b | 30/31 (97 %) | 8/10 (80 %) | 7,5 s / 6,4 s | 2,0 / 2,0 |
-| qwen2.5:3b-instruct | 19/31 (61 %) | 7/10 (70 %) | 4,1 s / 6,5 s | 3,4 / 3,5 |
+| qwen2.5:7b | 31/31 (100 %), 30/31 après audit de Q14 | 9/10 | 6,9 s / 6,7 s | 2,3 / 2,2 |
+| qwen2.5-coder:7b | 30/31 (97 %) | 8/10 | 7,5 s / 6,4 s | 2,0 / 2,0 |
+| qwen2.5:3b-instruct | 19/31 (61 %) | 7/10 | 4,1 s / 6,5 s | 3,4 / 3,5 |
 
-**Lecture prudente.** Le prompt et la boucle ont été ajustés en regardant les erreurs du qwen2.5:7b sur le jeu de développement, qui lui est donc favorable. Sur le test final, l'échantillon est trop petit (10 questions) pour classer les modèles : 9, 8 et 7 sur 10 sont dans la marge d'erreur. Ce qui est net : le 3B est nettement moins fiable sur le jeu de développement, et le coder n'a jamais eu besoin de s'auto-corriger (2,0 étapes partout), alors que les autres modèles oublient parfois `print()`.
+Le prompt et la boucle ont été ajustés en regardant les erreurs du qwen2.5:7b sur le jeu de développement, qui lui est donc favorable. Sur le test final, 9, 8 et 7 sur 10 sont dans la marge d'erreur : les modèles ne peuvent pas être départagés. Ce qui est net : le 3B est moins fiable sur le jeu de développement, et le coder n'a jamais eu besoin de s'auto-corriger (2,0 étapes partout).
 
-### Principale cause d'échec : lignes contre commandes distinctes
+### Expérience : confusion lignes / commandes distinctes
 
-Sur les 4 échecs des deux modèles 7B, 3 viennent de la même confusion. Le fichier contient plusieurs lignes par commande, et le modèle calcule par ligne alors que la question demande par commande distincte (`Order ID`).
+Sur 4 échecs des deux modèles 7B, 3 avaient la même cause : le fichier contient plusieurs lignes par commande, et le modèle calculait par ligne alors que la question demandait par commande distincte (F9 pour le qwen2.5:7b, Q8 et F8 pour le coder). Sur v3, le qwen2.5:7b faisait aussi l'erreur (N1, N4), plus un oubli de regroupement (N7).
 
-| Modèle | Question | Attendu | Réponse | Calcul réalisé |
+J'ai testé deux corrections avec le qwen2.5:7b :
+- **Règles 6 et 7 dans le prompt** : agréger sur l'identifiant quand la question dit « par commande » ou « distinct », et regrouper avec `groupby` quand elle demande « quel X ».
+- **Contrôle de cohérence** (voir ci-dessus).
+
+| Configuration | Dev (31) | v3 (10) | Final (10) | Total |
 |---|---|---|---|---|
-| qwen2.5:7b | F9 : clients avec au moins 10 commandes distinctes | 88 | 523 | Nombre de lignes par client (`len(x) >= 10`) |
-| qwen2.5-coder:7b | Q8 : profit moyen par commande | 57 | 29 | Profit moyen par ligne |
-| qwen2.5-coder:7b | F8 : chiffre d'affaires moyen par commande | 458,6 | 229,9 | Chiffre d'affaires moyen par ligne |
+| Base | 31/31 | 7/10 | 9/10 | 47/51 |
+| + règles 6-7 | 27/31 | 9/10 | 10/10 | 46/51 |
+| + règles 6-7 + contrôle | 30/31 | 9/10 | 10/10 | **49/51** |
 
-Le code s'exécute sans erreur dans les trois cas, donc le garde-fou ne détecte rien, et les réponses reprennent le mot « commande » de la question comme si elles y répondaient. Aucun des deux 7B ne commet l'erreur sur les mêmes questions, ce qui indique une fragilité du protocole plus qu'un défaut d'un modèle en particulier.
+Résultats :
+- Les règles corrigent N4, N7 et F9, mais font régresser 4 questions du jeu de développement. Dans 3 cas (Q5, Q8, Q19), le code était juste et la réponse finale le contredisait. Dans le 4e (Q23), la question demande de compter des lignes et le modèle a produit un code faux (pas de filtre sur la région, `nunique` sur une mauvaise colonne).
+- Le contrôle de cohérence corrige les 3 premiers cas, au prix d'un peu plus d'étapes (2,5 en moyenne contre 2,2 à 2,3).
+- Q23 et N1 échouent toujours : leur code est faux, et le contrôle ne vérifie que la cohérence entre le code et la réponse, pas la justesse du calcul.
 
-Autre échec du coder : **F6** (sous-catégorie avec la remise moyenne la plus élevée, attendu Binders). Sa réponse finale est le mot « ERREUR » après 2 étapes. Cause non élucidée.
+**Limite importante** : les règles et le contrôle ont été écrits en observant les échecs de ces trois jeux. Le score de 49/51 est donc optimiste et ne prouve pas une amélioration générale. Un jeu de questions indépendant serait nécessaire pour la confirmer. Les résultats du jeu de développement et du test final avec les règles seules (27/31 et 10/10) ont été écrasés lors des runs suivants : ils proviennent de mes logs de terminal, sans fichier de résultats.
 
-### Échecs du qwen2.5:3b
+### Autres échecs observés
 
-Sur le test final : F1 et F2 utilisent les 6 étapes autorisées sans converger, et F9 échoue après 4 étapes. Sur le jeu de développement (12 échecs sur 31) :
-
-- **Calcul incorrect (8)** : mauvaise agrégation ou mauvais filtre. Exemples : Q4 renvoie un montant au lieu d'une région, Q28 renvoie « Second Class » au lieu de « Standard Class ». Q15 et Q22 renvoient une fraction (0,2) au lieu d'un pourcentage.
-- **Limite d'étapes atteinte (3)** : Q9, Q14, Q21.
-- **Résultat partiel (1)** : Q16, deux clients sur trois corrects.
-
-Avec l'ancien protocole, sans garde-fou et sur les 10 premières questions, le 3B réussissait 1/10 : il répondait sans exécuter de code et inventait ses chiffres. Le garde-fou le rend utilisable, mais il ne garantit pas la justesse du calcul.
+- **Coder, F6** (sous-catégorie à la remise moyenne la plus élevée) : la réponse finale est le mot « ERREUR » après 2 étapes. Cause non élucidée.
+- **Q14** est notée correcte alors que le code compte les lignes par trimestre au lieu de sommer le profit (bonne réponse par coïncidence).
+- **qwen2.5:3b** : sur le test final, F1 et F2 utilisent les 6 étapes sans converger. Sur le jeu de développement, 12 échecs sur 31 : calcul incorrect (8), limite d'étapes atteinte (3), résultat partiel (1). Avec l'ancien protocole, sans garde-fou, il réussissait 1/10 : il répondait sans exécuter de code et inventait ses chiffres.
 
 ### Progression du qwen2.5:7b sur le jeu de développement
 
@@ -80,21 +88,21 @@ Avec l'ancien protocole, sans garde-fou et sur les 10 premières questions, le 3
 | v1 : boucle de base | 10/10 | 17/21 (16/21 après audit de Q14) | Code juste mais `print()` oublié, réponse finale inventée |
 | v2 : garde-fou d'exécution | 10/10 | 21/21 (20/21 après audit de Q14) | Aucun échec restant |
 
-Les premières corrections portaient sur mon infrastructure (sandbox, vérificateur, prompt), pas sur le modèle. À la v1, les 4 échecs du jeu de test avaient la même cause : le modèle oubliait `print()`, le sandbox le signalait, mais la boucle acceptait quand même une réponse finale sans résultat valide. La v2 exige une exécution réussie avant toute réponse, et le modèle se corrige alors en 4 étapes.
+Les premières corrections portaient sur mon infrastructure (sandbox, vérificateur, prompt), pas sur le modèle.
 
 ## Limites connues
 
-- **Le garde-fou vérifie l'exécution, pas le sens.** Un code qui tourne mais répond à une autre question que celle posée n'est pas détecté. C'est la cause de 3 des 4 échecs des modèles 7B.
-- **Test final de 10 questions** : trop petit pour départager les modèles. Les questions ont été écrites avant le run, mais n'ont pas été enregistrées dans un commit avant son lancement.
-- **Q14 est un faux positif** : elle est notée correcte, mais le code compte les lignes par trimestre au lieu de sommer le profit (bonne réponse par coïncidence).
-- **Vérificateur imparfait** : il ignore le signe des nombres et peut valider un petit nombre présent par hasard dans la réponse.
+- **Le contrôle ne vérifie pas la justesse du calcul.** Un code qui s'exécute mais répond à une autre question que celle posée n'est pas détecté (Q23, N1).
+- **Évaluation optimiste** : les corrections ont été conçues en observant les jeux sur lesquels elles sont mesurées. Pas de jeu indépendant pour les confirmer.
+- **Petits échantillons** : 10 questions par jeu, un seul run par modèle. Les résultats sont indicatifs.
+- **Vérificateur imparfait** : il ignore le signe des nombres, valide si le mot attendu apparaît n'importe où dans la réponse, et peut valider un petit nombre présent par hasard.
 - **Dates fragiles** : le modèle écrit souvent `pd.to_datetime` sans préciser le format, ou utilise `str.contains('2016')`. Cela fonctionne ici mais n'est pas robuste.
 - **Sandbox** : il protège contre les plantages et les boucles infinies, mais ce n'est pas une isolation de sécurité (le code peut lire des fichiers). Docker serait nécessaire en production.
-- **Un seul dataset, un seul run par modèle** : les résultats sont indicatifs.
+- **Un seul dataset.**
 
 ## Prochaines étapes
 
-- Vérification de cohérence entre la question et le code (par exemple « par commande distincte » doit entraîner un `nunique` sur `Order ID`), à mesurer sur un nouveau jeu de questions
+- Jeu de questions indépendant pour confirmer (ou infirmer) les règles et le contrôle
 - Exécution du code dans Docker, démo en ligne
 
 ## Lancer le projet
@@ -123,8 +131,9 @@ streamlit run app.py
 ### Évaluation
 
 ```bash
-python evaluate.py qwen2.5:7b          # jeu de développement (31 questions)
+python evaluate.py qwen2.5:7b          # développement (31 questions)
 python evaluate.py qwen2.5:7b final    # test final (10 questions)
+python evaluate.py qwen2.5:7b v3       # v3 (10 questions)
 ```
 
 Les résultats sont enregistrés dans `eval/`.
