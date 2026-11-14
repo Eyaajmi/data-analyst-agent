@@ -1,0 +1,82 @@
+[
+  {
+    "question": "Combien de commandes distinctes (Order ID) ont été passées en 2015 ?",
+    "expected": "1038",
+    "ok": true,
+    "seconds": 7.0,
+    "steps": 2,
+    "answer": "1038"
+  },
+  {
+    "question": "En 2016, quel est le numéro du mois (1 à 12) avec le plus grand profit total ?",
+    "expected": "12",
+    "ok": true,
+    "seconds": 9.2,
+    "steps": 2,
+    "answer": "12"
+  },
+  {
+    "question": "Quelle est la plus grande valeur de Sales sur une seule ligne, arrondie à l'entier ?",
+    "expected": "22638",
+    "ok": true,
+    "seconds": 3.5,
+    "steps": 2,
+    "answer": "22638"
+  },
+  {
+    "question": "Quels sont les 3 États (State) avec le plus grand nombre de commandes distinctes (Order ID) ?",
+    "expected": "['California', 'New York', 'Texas']",
+    "ok": true,
+    "seconds": 6.8,
+    "steps": 2,
+    "answer": "California, New York, Texas"
+  },
+  {
+    "question": "Quel pourcentage des lignes a un profit négatif ? Arrondis à 1 décimale.",
+    "expected": "18.7",
+    "ok": true,
+    "seconds": 6.5,
+    "steps": 2,
+    "answer": "18.7%"
+  },
+  {
+    "question": "Quelle sous-catégorie (Sub-Category) a la remise (Discount) moyenne la plus élevée ?",
+    "expected": "Binders",
+    "ok": false,
+    "seconds": 7.0,
+    "steps": 2,
+    "answer": "ERREUR"
+  },
+  {
+    "question": "Quel est le profit total de la région Central, arrondi à l'entier ?",
+    "expected": "39706",
+    "ok": true,
+    "seconds": 7.5,
+    "steps": 2,
+    "answer": "Profit total de la région Central : 39706"
+  },
+  {
+    "question": "Quel est le chiffre d'affaires moyen par commande distincte (Sales total / nombre de commandes), arrondi à 1 décimale ?",
+    "expected": "458.6",
+    "ok": false,
+    "seconds": 5.6,
+    "steps": 2,
+    "answer": "229.9"
+  },
+  {
+    "question": "Combien de clients distincts (Customer ID) ont passé au moins 10 commandes distinctes ?",
+    "expected": "88",
+    "ok": true,
+    "seconds": 7.9,
+    "steps": 2,
+    "answer": "88"
+  },
+  {
+    "question": "Combien de lignes ont une Ship Date identique à leur Order Date ?",
+    "expected": "519",
+    "ok": true,
+    "seconds": 3.4,
+    "steps": 2,
+    "answer": "519"
+  }
+]
