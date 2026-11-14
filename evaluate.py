@@ -29,10 +29,11 @@ def is_correct(answer: str, expected, kind: str) -> bool:
 
 
 def main(model: str, which: str):
-    if which == "final":
-        from eval.ground_truth_final import CASES
-    else:
+    if which == "31q":
         from eval.ground_truth import CASES
+    else:
+        import importlib
+        CASES = importlib.import_module(f"eval.ground_truth_{which}").CASES
 
     results = []
     for i, (question, expected, kind) in enumerate(CASES, 1):
